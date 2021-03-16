@@ -1,108 +1,86 @@
-import React, { useState } from 'react';
+import React, { Component } from 'react';
 import './App.css';
 import Person from './Person/Person';
 
-function  App() {
+class App extends Component {
+  state = {
+    persons: [
+      { name: 'Max', age: 28 },
+      { name: 'Manu', age: 29 },
+      { name: 'Stephanie', age: 26 }
+    ],
+    otherState: 'some other value'
+  };
 
-  // Set the initial state/values of the form 
-  const [data,  setData]  = useState({
-    firstname : '',
-    lastname  : '',
-    number  : '',
-    message : '',
-    country : ''
-  });
-
-  const [form,  setForm]  = useState({
-    firstname : '',
-    lastname  : '',
-    number  : '',
-    message : '',
-    country : ''
-  });
-
-  const [submit,  submitted]  = useState(false);
-
-  const printValues = e =>  {
-    e.preventDefault();
-    setForm({
-      firstname : data.firstname,
-      lastname  : data.lastname,
-      number  : data.number,
-      message : data.message,
-      country : data.country
-    });
-    submitted(true);
-  }
-
-  const updateField = e =>  {
-    setData({
-      ...data,
-      [e.target.name] : e.target.value
+  switchNameHandler = (newName) => {
+    // console.log('Was clicked!');
+    // DON'T DO THIS: this.state.persons[0].name = 'Maximilian';
+    this.setState({
+      persons: [
+        { name: 'Maximilian', age: 28 },
+        { name: 'Manu', age: 29 },
+        { name: 'Stephanie', age: 27 }
+      ]
     });
   };
 
-  return(
-    <div>
-      <form onSubmit={printValues}>
-        <label>
-          First Name
-          <input  
-          value={data.firstname}
-          name="firstname"
-          onChange={updateField}
-          />
-        </label>
-        <br />
-        <label>
-          Last  Name
-          <input  
-          value={data.lastname}
-          name="lastname"
-          onChange={updateField}
-          />
-        </label>
-        <br />
-        <label>
-          Mobile  Number
-          <input
-          type="number"
-          value={data.number}
-          name="number"
-          onChange={updateField}
-          />
-        </label>
-        <br />
-        <label>
-          Pick Your Country
-          <select value={data.country}  name="country" onChange={updateField}>
-            <option value="india">India</option>
-            <option value="usa">USA</option>
-            <option value="britian">England</option>
-            <option value="australia">Australia</option>
-            <option value="germany">Germany</option>
-          </select>
-        </label>
-        <br />
-        <label>
-          Message
-          <textarea 
-          value={data.message}
-          name="message"
-          onChange={updateField}
-          />
-        </label>
-        <br />
-        <button>Submit</button>
-      </form>
+  nameChangedHandler  = (event) =>  {
+    this.setState({
+      persons : [
+        { name  : 'Max',  age : 28},
+        { name  : event.target.value, age : 29},
+        { name  : 'Stephanie',  age : 26}
+      ]
+    });
+  };
 
-      <p>{submit?form.firstname:null}</p>
-      <p>{submit?form.lastname:null}</p>
-      <p>{submit?form.number:null}</p>
-      <p>{submit?form.country:null}</p>
-      <p>{submit?form.message:null}</p>
-    </div>
-  );
+  stephanieNameChangedHandler = (event) =>  {
+    this.setState({
+      persons : [
+        { name  : 'Max',  age : 28},
+        { name  : 'Manu', age : 29},
+        { name  : event.target.value, age : 26}
+      ]
+    });
+  };
+
+  render() {
+    const style = {
+      backgroundColor : 'white',
+      font  : 'inherit',
+      border  : '1px  solid blue',
+      padding : '8px',
+      cursor  : 'pointer'
+    };
+
+    return (
+      <div className="App">
+        <h1>Hi, I'm a React App</h1>
+        <p>This is really working!</p>
+        <button 
+        style={style}
+        onClick={() =>  this.switchNameHandler('Maxmillian!!')}>Switch Name</button>
+        <Person
+          name={this.state.persons[0].name}
+          age={this.state.persons[0].age}
+        />
+        <Person
+          name={this.state.persons[1].name}
+          age={this.state.persons[1].age}
+          click={this.switchNameHandler.bind(this, 'Max!')}
+          changed={this.nameChangedHandler}
+        >
+          My Hobbies: Racing
+        </Person>
+        <Person
+          name={this.state.persons[2].name}
+          age={this.state.persons[2].age}
+          changed={this.stephanieNameChangedHandler}
+        />
+      </div>
+    );
+    // return React.createElement('div', {className: 'App'}, React.createElement('h1', null, 'Does this work now?'));
+  }
 }
 
 export default App;
