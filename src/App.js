@@ -3,13 +3,14 @@ import './App.css';
 import Person from './Person/Person';
 import Header from './Header/Header';
 import Footer from './Footer/Footer';
+import Card from './Card-Item/Card';
 
 class App extends Component {
   render() {
     return (
       <div className="App">
         <Header />
-        <div>Some Content</div>
+        <Card />
         <Footer />
       </div>
     );

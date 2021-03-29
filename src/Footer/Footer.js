@@ -5,7 +5,7 @@ class Footer extends Component {
     render() {
         return (
             <div>
-                <div class="footer">
+                <div className="footer">
                     <p>Footer</p>
                 </div>
             </div>
