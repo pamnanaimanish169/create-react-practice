@@ -12,6 +12,8 @@ class App extends Component {
         <Header />
         <Card />
         <Footer />
+
+
       </div>
     );
 
